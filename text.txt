@@ -1,0 +1,133 @@
+Here’s a step-by-step guide to creating a simple Odoo module called ‘hello_world’.
+
+Step 1: Create the Directory Structure
+
+First, create a folder named hello_world inside your Odoo custom modules directory.
+
+odoo_custom_addons/
+└── hello_world/
+    ├── __init__.py
+    ├── __manifest__.py
+    ├── models/
+    │   ├── __init__.py
+    │   └── hello_world.py
+    ├── views/
+    │   └── hello_world_view.xml
+    └── security/
+        └── ir.model.access.csv
+
+Step 2: Create __init__.py
+
+This file is necessary to initialize the module and load its subcomponents.
+
+__init__.py in the root folder:
+
+from . import models
+
+__init__.py in the models/ folder:
+
+from . import hello_world
+
+Step 3: Create the Manifest File (__manifest__.py)
+
+The __manifest__.py file describes your module to Odoo, including its name, version, dependencies, and the files to load.
+
+__manifest__.py:
+
+{
+    'name': 'Hello World',
+    'version': '1.0',
+    'summary': 'Simple Hello World Module',
+    'description': 'A basic Hello World example module for Odoo.',
+    'author': 'Your Name',
+    'depends': ['base'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/hello_world_view.xml',
+    ],
+    'installable': True,
+    'application': False,
+}
+
+Step 4: Create the Model File (hello_world.py)
+
+In the models/ folder, create the hello_world.py file. This file defines a simple model for your module.
+
+models/hello_world.py:
+
+from odoo import models, fields
+
+class HelloWorld(models.Model):
+    _name = 'hello.world'
+    _description = 'Hello World Model'
+
+    name = fields.Char(string="Title", required=True)
+    message = fields.Text(string="Message", default="Hello, World!")
+
+Step 5: Create the View XML File (hello_world_view.xml)
+
+In the views/ folder, create a file called hello_world_view.xml. This file defines the UI for the hello.world model.
+
+views/hello_world_view.xml:
+
+<odoo>
+    <!-- Tree View -->
+    <record id="view_hello_world_tree" model="ir.ui.view">
+        <field name="name">hello.world.tree</field>
+        <field name="model">hello.world</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_hello_world_form" model="ir.ui.view">
+        <field name="name">hello.world.form</field>
+        <field name="model">hello.world</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+                    <field name="message"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_hello_world_root" name="Hello World" sequence="10"/>
+
+    <!-- Action to Open Tree View -->
+    <record id="action_hello_world" model="ir.actions.act_window">
+        <field name="name">Hello World</field>
+        <field name="res_model">hello.world</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Link Menu Item to Action -->
+    <menuitem id="menu_hello_world" parent="menu_hello_world_root" action="action_hello_world" sequence="10"/>
+</odoo>
+
+Step 6: Create the Access Control File (ir.model.access.csv)
+
+In the security/ folder, create the file ir.model.access.csv. This file defines access permissions for the model.
+
+security/ir.model.access.csv:
+
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hello_world,access_hello_world,model_hello_world,base.group_user,1,1,1,1
+
+Step 7: Install the Module
+
+	1.	Update the Apps List:
+In the Odoo UI, go to Apps, and in Developer Mode, click Update Apps List.
+	2.	Install the Module:
+Search for “Hello World” in the Apps dashboard and install it.
+
+Step 8: Test the Module
+
+After installing, you will see a new menu item called “Hello World.” Click it, and you can create new records with the name and message fields, where the default message is “Hello, World!”
+
+That’s it! You have successfully created a basic “Hello World” Odoo module.
