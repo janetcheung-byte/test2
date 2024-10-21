@@ -1,12 +1,29 @@
-Invalid Operation
+<odoo>
+    <!-- Define a top-level menu item -->
+    <menuitem id="menu_hello_world" name="Hello World" sequence="10" />
 
-Error while importing module 'hello_world'.
+    <!-- Define the form view to display "Hello World" -->
+    <record id="view_hello_world_form" model="ir.ui.view">
+        <field name="name">hello.world.form</field>
+        <field name="model">ir.ui.view</field>
+        <field name="arch" type="xml">
+            <form string="Hello World">
+                <group>
+                    <h1>Hello World</h1>
+                </group>
+            </form>
+        </field>
+    </record>
 
- while parsing /tmp/tmp9woncj_k/hello_world/views/hello_world_view.xml:6, somewhere inside
-<record id="action_hello_world" model="ir.actions.act_window">
+    <!-- Define the action to display the form view -->
+    <record id="action_hello_world" model="ir.actions.act_window">
         <field name="name">Hello World</field>
-        <field name="res_model">ir.actions.server</field>
+        <field name="res_model">ir.ui.view</field>
         <field name="view_mode">form</field>
-        <field name="target">inline</field>
         <field name="view_id" ref="view_hello_world_form"/>
-    </record> 
+        <field name="target">inline</field>
+    </record>
+
+    <!-- Submenu that triggers the action -->
+    <menuitem id="submenu_hello_world" name="Hello World" parent="menu_hello_world" action="action_hello_world"/>
+</odoo>
